@@ -16,12 +16,8 @@ class UserManage extends Component {
   }
 
   async componentDidMount() {
-    let response = await getAllUsers("ALL");
-    if (response && response.errCode === 0) {
-      this.setState({
-        arrUsers: response.users,
-      });
-    }
+    await this.getAllUsersFromReact();
+    
   }
 
   handleAddNewUser = () => {
