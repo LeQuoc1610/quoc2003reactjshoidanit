@@ -1,0 +1,105 @@
+#customers {
+  font-family    : Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width          : 100%;
+}
+
+#customers td,
+#customers th {
+  border : 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+#customers tr:hover {
+  background-color: #ddd;
+}
+
+#customers th {
+  padding-top     : 12px;
+  padding-bottom  : 12px;
+  text-align      : left;
+  background-color: #04AA6D;
+  color           : white;
+}
+
+.btn-edit {
+  width     : 50px;
+  border    : none;
+  outline   : none;
+  background: transparent;
+  color     : orange;
+
+  &:hover {
+    background-color: transparent !important;
+    color           : orange !important;
+  }
+}
+
+.btn-delete {
+  width     : 50px;
+  border    : none;
+  outline   : none;
+  background: transparent;
+  color     : rgb(10, 129, 10);
+
+  &:hover {
+    background-color: transparent !important;
+    color           : rgb(10, 129, 10) !important;
+  }
+}
+
+
+.modal-user-container {
+  .modal-user-body {
+  display  : flex;
+  flex-wrap: wrap;
+  gap      : 10px;
+
+
+  .input-container {
+    width         : 45%;
+    display       : flex;
+    flex-direction: column;
+
+    label {
+      font-weight: bold;
+    }
+
+    input {
+      padding: 5px;
+    }
+  }
+
+  .max-width-input {
+    width: 100%;
+  }
+}
+  .modal-header {
+    button.close {
+      background-color: transparent !important;
+      border          : none !important;
+      box-shadow      : none !important;
+      font-size       : 1.5rem;
+      padding         : 0;
+      margin          : 0;
+      line-height     : 1;
+    }
+
+    button.close:focus {
+      outline: none;
+    }
+    
+  }
+  .modal-footer{
+    button.btn.btn-secondary {
+    width: 60px;
+    }
+    button.btn.btn-primary {
+    width: 120px;
+    }
+  }
+}

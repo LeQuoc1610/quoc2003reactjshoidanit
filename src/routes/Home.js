@@ -15,11 +15,12 @@ class Home extends Component {
 
 }
 
-const mapStateToProps = state => {
-    return {
-        isLoggedIn: state.admin.isLoggedIn
-    };
-};
+const mapStateToProps = state => ({
+  isLoggedIn: state.user.isLoggedIn,
+  language: state.app.language
+});
+
+
 
 const mapDispatchToProps = dispatch => {
     return {
