@@ -35,7 +35,6 @@ class Login extends Component {
       );
       console.log("Response handleLoginApi trả về:", response);
 
-      // Nếu handleLoginApi đã unwrap data, response là chính object data
       const data = response?.data ?? response;
       console.log("Dữ liệu sau unpack:", data);
 
@@ -93,7 +92,7 @@ class Login extends Component {
                 >
                   <i
                     className={
-                      isShowPassword ? "far fa-eye" : "far fa-eye-slash"
+                      this.state.isShowPassword ? "far fa-eye" : "far fa-eye-slash"
                     }
                   />
                 </span>
