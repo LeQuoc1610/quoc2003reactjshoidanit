@@ -21,7 +21,7 @@ class ModalUser extends Component {
     };
   }
 
-    componentDidMount() {
+  componentDidMount() {
     emitter.on("EVENT_CLEAR_MODAL_DATA", () => {
       this.setState({
         email: "",
@@ -35,21 +35,45 @@ class ModalUser extends Component {
       });
     });
   }
-  
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.userEdit != prevProps.userEdit &&
+      this.props.isEditMode === true
+    ) {
+      this.setState({
+        email: this.props.userEdit.email,
+        firstName: this.props.userEdit.firstName,
+        lastName: this.props.userEdit.lastName,
+        address: this.props.userEdit.address,
+        phonenumber: this.props.userEdit.phonenumber,
+        gender: this.props.userEdit.gender === true ? "1" : "0",
+        roleId: this.props.userEdit.roleId,
+        id: this.props.userEdit.id,
+        password: "",
+      });
+    }
+  }
+
   handleOnChangeInput = (event, id) => {
     let copyState = { ...this.state };
     copyState[id] = event.target.value;
-    this.setState({ 
-      ...copyState });
+    this.setState({
+      ...copyState,
+    });
   };
 
   checkValidateInput = () => {
     let isValid = true;
-    let arrInput = ['email','password','firstName','lastName','address'];
-    for( let i =0; i<arrInput.length;i++){
-      if( !this.state[arrInput[i]]){
+    let arrInput = ["email", "firstName", "lastName", "address"];
+    if (!this.props.isEditMode) {
+      arrInput.push("password");
+    }
+
+    for (let i = 0; i < arrInput.length; i++) {
+      if (!this.state[arrInput[i]]) {
         isValid = false;
-        alert('Missing paramater: ' + arrInput[i]);
+        alert("Missing paramater: " + arrInput[i]);
       }
     }
     return isValid;
@@ -57,10 +81,32 @@ class ModalUser extends Component {
 
   handleAddNewUser = async () => {
     let isValid = this.checkValidateInput();
-    if(isValid === true){
-      this.props.createNewUser(this.state,'abc');
+    if (isValid) {
+      if (this.props.isEditMode) {
+        // Sửa user
+        await this.props.updateUser({
+          id: this.state.id,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          address: this.state.address,
+          phonenumber: this.state.phonenumber,
+          gender: this.state.gender,
+          roleId: this.state.roleId,
+        });
+      } else {
+        // Thêm mới user
+        await this.props.createNewUser({
+          email: this.state.email,
+          password: this.state.password,
+          firstName: this.state.firstName,
+          lastName: this.state.lastName,
+          address: this.state.address,
+          phonenumber: this.state.phonenumber,
+          gender: this.state.gender,
+          roleId: this.state.roleId,
+        });
+      }
     }
-    
   };
 
   render() {
@@ -83,21 +129,30 @@ class ModalUser extends Component {
                 type="email"
                 onChange={(event) => this.handleOnChangeInput(event, "email")}
                 value={this.state.email}
+                disabled={this.state.isEditMode}
               />
             </div>
-            <div className="input-container">
-              <label>Password</label>
-              <input
-                type="password"
-                onChange={(event) => this.handleOnChangeInput(event, "password")}
-                value={this.state.password}
-              />
-            </div>
+
+            {!this.props.isEditMode && (
+              <div className="input-container">
+                <label>Password</label>
+                <input
+                  type="password"
+                  onChange={(event) =>
+                    this.handleOnChangeInput(event, "password")
+                  }
+                  value={this.state.password}
+                />
+              </div>
+            )}
+
             <div className="input-container">
               <label>First name</label>
               <input
                 type="text"
-                onChange={(event) => this.handleOnChangeInput(event, "firstName")}
+                onChange={(event) =>
+                  this.handleOnChangeInput(event, "firstName")
+                }
                 value={this.state.firstName}
               />
             </div>
@@ -105,7 +160,9 @@ class ModalUser extends Component {
               <label>Last name</label>
               <input
                 type="text"
-                onChange={(event) => this.handleOnChangeInput(event, "lastName")}
+                onChange={(event) =>
+                  this.handleOnChangeInput(event, "lastName")
+                }
                 value={this.state.lastName}
               />
             </div>
@@ -121,7 +178,7 @@ class ModalUser extends Component {
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={this.handleAddNewUser}>
-            Add new
+            {this.props.isEditMode ? "Save changes" : "Add new"}
           </Button>{" "}
           <Button color="secondary" onClick={this.props.toggleFromParent}>
             Close

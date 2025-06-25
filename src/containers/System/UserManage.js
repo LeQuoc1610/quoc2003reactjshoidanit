@@ -5,6 +5,7 @@ import "./UserManage.scss";
 import ModalUser from "./ModalUser";
 import {
   createNewUser,
+  updateUser,
   deleteUser,
   getAllUsers,
 } from "../../services/userService";
@@ -16,6 +17,8 @@ class UserManage extends Component {
     this.state = {
       arrUsers: [],
       isOpenModalUser: false,
+      isEditMode: false,
+      userEdit: {},
     };
   }
 
@@ -57,6 +60,25 @@ class UserManage extends Component {
       console.log(e);
     }
   };
+
+  updateUserService = async (data) => {
+    try {
+      let response = await updateUser(data);
+      if (response && response.errCode === 0) {
+        await this.getAllUsersFromReact();
+        this.setState({
+          isOpenModalUser: false,
+          isEditMode: false,
+          userEdit: null,
+        });
+      } else {
+        alert(response.errMessage);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   handleDeleteUser = async (userId) => {
     try {
       let res = await deleteUser(userId);
@@ -70,6 +92,14 @@ class UserManage extends Component {
     }
   };
 
+  handlEditUser = (user) => {
+    this.setState({
+      isOpenModalUser: true,
+      isEditMode: true,
+      userEdit: user,
+    });
+  };
+
   render() {
     let arrUsers = this.state.arrUsers;
     console.log(arrUsers);
@@ -80,6 +110,9 @@ class UserManage extends Component {
           isOpen={this.state.isOpenModalUser}
           toggleFromParent={this.toggleUserModal}
           createNewUser={this.createNewUserService}
+          updateUser={this.updateUserService}
+          userEdit={this.state.userEdit}
+          isEditMode={this.state.isEditMode}
         />
 
         <div className="title text-center">MANAGE WITH ERIC</div>
@@ -111,7 +144,10 @@ class UserManage extends Component {
                     <td>{item.lastName}</td>
                     <td>{item.address}</td>
                     <td>
-                      <button className="btn-edit">
+                      <button
+                        className="btn-edit"
+                        onClick={() => this.handlEditUser(item)}
+                      >
                         <i className="fas fa-pencil-alt"></i>
                       </button>
                       <button
