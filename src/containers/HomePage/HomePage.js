@@ -8,9 +8,7 @@ class HomePage extends Component {
         
         return (
             <div>
-                <HomeHeader />
-
-               
+                <HomeHeader />               
             </div>
         );
     }
