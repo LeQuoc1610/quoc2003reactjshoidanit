@@ -4,6 +4,7 @@ import "./HomeHeader.scss";
 
 class HomeHeader extends Component {
   render() {
+    console.log('check props',this.props)
     return (
       <React.Fragment>
         <div className="home-header-container">
@@ -44,7 +45,8 @@ class HomeHeader extends Component {
               <div className="support">
                 <i class="fas fa-question-circle">Hỗ Trợ</i>
               </div>
-              <div className="flag">VN</div>
+              <div className="language-vi">VN</div>
+              <div className="language-en">EN</div>
             </div>
           </div>
         </div>
@@ -79,7 +81,7 @@ class HomeHeader extends Component {
               </div>
               <div className="options-child">
                 <div className="icon-child">
-                  <i className="fa-solid fa-temperature-low"></i>
+                  <i className="fas fa-flask"></i>
                 </div>
                 <div className="text-child"> Xét nghiệm y học</div>
               </div>
@@ -91,7 +93,7 @@ class HomeHeader extends Component {
               </div>
               <div className="options-child">
                 <div className="icon-child">
-                  <i className="fa-solid fa-tooth"></i>
+                 <i className="fas fa-briefcase-medical"></i>
                 </div>
                 <div className="text-child"> Khám nha khoa</div>
               </div>
